@@ -1,0 +1,44 @@
+{
+    "loop": false,
+    "type": "complex",
+    "version" : 1,
+    "interval": 500,
+    "textures": ["Astronaut_Jump.png"],
+    "frames": [
+        {
+            "texture" : 0,
+            "width": 24,
+            "height": 24,
+            "sx": 0,
+            "sy": 0 
+        },
+        {
+            "texture" : 0,
+            "width": 24,
+            "height": 24,
+            "sx": 24,
+            "sy": 0 
+        },
+        {
+            "texture" : 0,
+            "width": 24,
+            "height": 24,
+            "sx": 48,
+            "sy": 0 
+        },
+        {
+            "texture" : 0,
+            "width": 24,
+            "height": 24,
+            "sx": 72,
+            "sy": 0 
+        },
+        {
+            "texture" : 0,
+            "width": 24,
+            "height": 24,
+            "sx": 96,
+            "sy": 0 
+        }
+    ]
+}
