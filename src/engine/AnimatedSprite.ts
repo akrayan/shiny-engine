@@ -1,6 +1,7 @@
 import IComponent from "./IComponent";
 import EventManager from "./EventManager";
 import RessourcesLoader from "./RessourcesLoader";
+import GameObject from "./GameObject";
 
 export interface IFrame {
   "texture": number,
@@ -20,28 +21,31 @@ export interface IAnimation {
 }
 
 export default class AnimatedSprite implements IComponent {
+  gameobject: GameObject | null = null;
   animation: IAnimation;
   //img: HTMLImageElement;
-  px = 0;
-  py = 0;
-  sz = 1;
+  //px = 0;
+  //py = 0;
+  //sz = 1;
   currentFrame = 0
   layer = 1;
   time = 0
 
-  constructor(animation: IAnimation, sz = 1, layer = 1) {
+  constructor(animation: IAnimation, sz = 1, layer = 1, gameobject?: GameObject) {
+    if (gameobject)
+      this.gameobject = gameobject
     //this.img = new Image()
     this.animation = animation;
     //should update the resource list
-    EventManager.subscribe('updateAnimation', (t: number) => {this.update(t)})
-    EventManager.subscribe('draw'+layer, (ctx: any) => {this.draw(ctx)})
+    EventManager.subscribe('updateAnimation', (t: number) => { this.update(t) })
+    EventManager.subscribe('draw' + layer, (ctx: any) => { this.draw(ctx) })
     //in wait of better solution
     /*setInterval(() => {
       console.log("frame ", this.currentFrame)
       this.currentFrame++;
       if (this.currentFrame == this.animation.frames.length)
         this.currentFrame = 0}, animation.interval)*/
-    this.sz = sz;
+    //this.sz = sz;
     this.layer = layer
   }
 
@@ -72,8 +76,13 @@ export default class AnimatedSprite implements IComponent {
     const textureName = this.animation.textures[frame.texture]
     const texture = RessourcesLoader.getTexture(textureName)
     // TODO add gameobject.transform.position
-    //return { texture, frame.sx, frame.sy, frame.width, frame.height, this.px, this.py, frame.width * this.sz, frame.height * this.sz }//draw parameter 
-    gameContex?.drawImage(texture, frame.sx, frame.sy, frame.width, frame.height, this.px, this.py, frame.width * this.sz, frame.height * this.sz)
-    //console.log('draw')
+    //return { texture, frame.sx, frame.sy, frame.width, frame.height, this.px, this.py, frame.width * this.sz, frame.height * this.sz }//draw parameter
+    if (this.gameobject == null)
+      console.error('Fail to draw, gameobject is null')
+    else {
+      const t = this.gameobject.transform
+
+      gameContex?.drawImage(texture, frame.sx, frame.sy, frame.width, frame.height, t.position.x, t.position.y, frame.width * t.scale.x, frame.height * t.scale.x)
+    }     //console.log('draw')
   }
 }

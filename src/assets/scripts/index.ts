@@ -1,3 +1,4 @@
+import AScript from "../../engine/AScript";
 import { ScriptMap } from "../../engine/GameEngine"
 import Player from "./Player"
 

@@ -1,10 +1,11 @@
 import GameObject from "./GameObject";
 import RessourcesLoader from "./RessourcesLoader";
 import EventManager from "./EventManager";
-import IScript from "./IScript";
+import AScript from "./AScript";
+import IScene from "./IScene";
 
 export type ScriptMap = {
-    [key: string]: new () => IScript;
+    [key: string]: new (gameobject: GameObject) => AScript;
 }
 
 export default class GameEngine {
@@ -13,13 +14,29 @@ export default class GameEngine {
     gameObjects: GameObject[] = []
     scriptMap: ScriptMap;
 
-    constructor(contex: CanvasRenderingContext2D, gameObjects: GameObject[], scriptMap: ScriptMap) {
+    constructor(contex: CanvasRenderingContext2D, scriptMap: ScriptMap, startScene: IScene) {
         this.gameContex = contex
-        this.gameObjects = gameObjects
+        
         this.scriptMap = scriptMap
-        RessourcesLoader.loadRessourcesUsedBySprites(gameObjects, () => { this.launchGame() })
+        
+        this.loadScene(startScene)
+        //RessourcesLoader.loadRessourcesUsedBySprites(gameObjects, () => { this.launchGame() })
         
         //requestAnimationFrame(gameloop)
+    }
+
+    //TODO create a sceneLoader class
+    loadScene(scene: IScene ) {
+        //clean previous scene
+        //TODO unload Resources and load New ressources
+        this.gameObjects = []
+
+        //load json
+        //deserialize ///
+        this.gameObjects = scene.gameobjects
+
+        RessourcesLoader.loadRessourcesUsedBySprites(this.gameObjects, () => { this.launchGame() })
+    
     }
 
     launchGame() {
