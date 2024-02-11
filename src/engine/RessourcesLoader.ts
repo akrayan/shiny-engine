@@ -1,3 +1,4 @@
+import { IAnimation } from "./components/AnimatedSprite";
 import GameObject from "./GameObject";
 
 //QUESTION : should it be singleton
@@ -5,11 +6,13 @@ export default class RessourcesLoader {
     private static _instance: RessourcesLoader;
     private _ressourcesReady: boolean = false;
     private _textures: { [key: string]: HTMLImageElement; } = {};
+    //private _animations: {[key: string]: IAnimation; } = {};
+    private _cache: Map<string, any>;
 
 
     //TODO check if singleton is a a good idea
     constructor() {
-
+        this._cache = new Map<string, any>()
     }
 
     public static getInstance(): RessourcesLoader {
@@ -30,14 +33,14 @@ export default class RessourcesLoader {
 
     //TODO handle more than only AnimatedSprite
     public static loadRessourcesUsedBySprites(gameObjects: GameObject[], onload: any) {
-        let paths : string[] = []
+        let paths: string[] = []
         gameObjects.forEach(g => g.components.forEach(c => paths.push(...c.getRessourcesPath())))
 
         return this.getInstance().loadTextures(paths, onload)
     }
 
 
-    loadTextures(texturesPath: string[], onload: any) {
+    public loadTextures(texturesPath: string[], onload: any) {
         let promises: any[] = [];
 
         texturesPath.forEach(path => {
@@ -61,6 +64,34 @@ export default class RessourcesLoader {
         }).catch(() => {
             console.error("Erreur lors du chargement des ressources.");
         });
+    }
+
+
+    public async loadAsset(path: string): Promise<any> {
+        if (this._cache.has(path)) {
+            return this._cache.get(path);
+        }
+
+        console.log('try to fetch :', path)
+
+        const response = await fetch(path);
+        const data = await response.json();
+        console.log('fetch ', response.status)
+        //if (data.type == 'animation')
+        //    this._animations[path] = data
+        this._cache.set(path, data);
+        return data;
+    }
+
+    public async loadAssets(paths: string[]): Promise<void> {
+        await Promise.all(paths.map(path => this.loadAsset(path)));
+    }
+
+    public getAsset(path: string) {
+        console.log(`i want to get ${path} from :`, this._cache)
+        if (this._cache.has(path)) {
+            return this._cache.get(path);
+        }
     }
     //load textures
     //const promises: Promise[] = []

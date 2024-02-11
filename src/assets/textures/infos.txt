@@ -1,7 +1,0 @@
-Astronaut:
-total : 120*24
-frame : 24*24
-credits :
-https://mattwalkden.itch.io/free-space-runner-pack
-
-Ground:

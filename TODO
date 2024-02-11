@@ -1,1 +1,8 @@
 [ ] SceneLoader
+
+*To fix
+- what if the layer of a sprite change ?
+
+*To think
+- put a requirement / dependency in scene.json and in every Json ?
+- dinamic load ? (address evry ressource with an Id if not in the cache load it dinamically ? in that case how to set those properties ? two properties one public is a string, take a path and the other an Object ? polymoriphisme to allow to give an object ?)

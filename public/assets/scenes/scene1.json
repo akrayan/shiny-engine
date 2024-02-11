@@ -1,3 +1,32 @@
 {
-    
+    "dependencies": {
+        "json" :["./assets/animations/player_jump.json"],
+        "images": ["./assets/textures/Astronaut_Jump.png"]
+    },
+    "gameObjects": [
+        {
+            "name": "Player",
+            "transform" : {
+                "position": {
+                    "x": 100,
+                    "y": 100
+                },
+                "scale" : {
+                    "x": 5,
+                    "y": 5
+                }
+            },
+            "components" : [
+                {
+                    "type": "Player"
+                },
+                {
+                    "type": "AnimatedSprite",
+                    "params": {
+                        "animation": "./assets/animations/player_jump.json"
+                    }
+                }
+            ]
+        }
+    ]
 }

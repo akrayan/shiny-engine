@@ -1,9 +1,10 @@
 {
+    "type": "animation",
     "loop": false,
-    "type": "complex",
+    "animation_type": "complex",
     "version" : 1,
     "interval": 500,
-    "textures": ["Astronaut_Jump.png"],
+    "textures": ["./assets/textures/Astronaut_Jump.png"],
     "frames": [
         {
             "texture" : 0,

@@ -1,43 +1,34 @@
 import GameObject from "./GameObject";
 import RessourcesLoader from "./RessourcesLoader";
 import EventManager from "./EventManager";
-import AScript from "./AScript";
-import IScene from "./IScene";
+import AScript from "./components/AScript";
+import IScene, { ISerializedScene } from "./IScene";
+import AnimatedSprite from "./components/AnimatedSprite";
+import { loadScene } from "./SceneManager";
+import {ComponentFactory, ScriptMap } from "./components/ComponentFactory";
 
-export type ScriptMap = {
-    [key: string]: new (gameobject: GameObject) => AScript;
-}
+export type {ScriptMap}
+
 
 export default class GameEngine {
     lastTimestamp: number = 0;
     gameContex: CanvasRenderingContext2D;
     gameObjects: GameObject[] = []
-    scriptMap: ScriptMap;
 
-    constructor(contex: CanvasRenderingContext2D, scriptMap: ScriptMap, startScene: IScene) {
+    constructor(contex: CanvasRenderingContext2D, scriptMap: ScriptMap, startScene: string) {
         this.gameContex = contex
-        
-        this.scriptMap = scriptMap
-        
-        this.loadScene(startScene)
+
+        //this.scriptMap = scriptMap
+        ComponentFactory.getInstance().initializeMap(scriptMap)
+        loadScene(startScene).then(() => {
+            this.launchGame()
+        })
+        //this.loadScene(startScene)
         //RessourcesLoader.loadRessourcesUsedBySprites(gameObjects, () => { this.launchGame() })
-        
+
         //requestAnimationFrame(gameloop)
     }
 
-    //TODO create a sceneLoader class
-    loadScene(scene: IScene ) {
-        //clean previous scene
-        //TODO unload Resources and load New ressources
-        this.gameObjects = []
-
-        //load json
-        //deserialize ///
-        this.gameObjects = scene.gameobjects
-
-        RessourcesLoader.loadRessourcesUsedBySprites(this.gameObjects, () => { this.launchGame() })
-    
-    }
 
     launchGame() {
         console.log("will lauunch game")
@@ -66,11 +57,12 @@ export default class GameEngine {
     }
 
     gameloop(time: number) {
-        console.log("gameloop start", time)
+        //console.log("gameloop start", time)
         const deltaTime = time - this.lastTimestamp
         this.lastTimestamp = time
         //if (RessourcesLoader.isRessourcesReady()) {
         EventManager.trigger('updateAnimation', deltaTime)
+        EventManager.trigger('updateScript', deltaTime)
         //updateAnimation(deltaTime)
         this.renderLoop()
         //}
@@ -78,7 +70,7 @@ export default class GameEngine {
           TODO
           else display loader
         */
-        console.log("finito")
+        //console.log("finito")
         requestAnimationFrame((t) => { this.gameloop(t) })
     }
 }
