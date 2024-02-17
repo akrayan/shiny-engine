@@ -20,7 +20,8 @@ export default class GameEngine {
 
         //this.scriptMap = scriptMap
         ComponentFactory.getInstance().initializeMap(scriptMap)
-        loadScene(startScene).then(() => {
+        loadScene(startScene).then((gameObjects) => {
+            this.gameObjects = gameObjects;
             this.launchGame()
         })
         //this.loadScene(startScene)

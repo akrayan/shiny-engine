@@ -10,7 +10,7 @@ export async function loadScene(scenePath: string) {
     console.info("file scene loaded", serializedScene)
     //load the dependencies
     RessourcesLoader.getInstance().loadTextures(serializedScene.dependencies.images, () => { })
-    RessourcesLoader.getInstance().loadAssets(serializedScene.dependencies.json)// TODO should await or handle the callback
+    await RessourcesLoader.getInstance().loadAssets(serializedScene.dependencies.json)// TODO should await or handle the callback
 
     //
     const gameObjects = []
@@ -21,5 +21,5 @@ export async function loadScene(scenePath: string) {
             gameObject.addComponent(ComponentFactory.getInstance().createComponent(cmp.type, cmp.params))
         gameObjects.push(gameObject)
     }
-
+    return gameObjects
 }
