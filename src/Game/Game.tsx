@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 //import player_sprite from "./assets/textures/Astronaut_Jump.png"
 //import player_animation from "../assets/animations/player_jump.json"
 import GameEngine from '../engine/GameEngine';
@@ -27,6 +27,8 @@ function initScene() {
 var engine: GameEngine | null = null
 
 export default function Game(props: any) {
+  const [isStarted, start]= useState(false)
+
   const canvasRef: React.LegacyRef<HTMLCanvasElement> = useRef(null) //React.ClassAttributes<HTMLCanvasElement>.ref?: React.LegacyRef<HTMLCanvasElement>
   useEffect(() => {
     if (engine == null) {
@@ -43,10 +45,13 @@ export default function Game(props: any) {
         //requestAnimationFrame(gameloop)
       }
      }
-  }, [])
-  return (
+  }, [isStarted])
+
+  return (<div>
+    {isStarted  ?
     <canvas width={800} height={600} ref={canvasRef} className={`${props.className}`}>
 
-    </canvas>
+    </canvas>: <button onClick={() => start(true)}>Start</button>
+    }</div>
   );
 }

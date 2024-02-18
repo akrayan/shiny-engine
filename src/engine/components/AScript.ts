@@ -15,12 +15,16 @@ export default abstract class AScript implements IComponent {
 
     gameobject: GameObject | null = null;
 
-    constructor(params: any = null) {
+    constructor(params: any = null, waitEventToStart : boolean = false) {
         //this.gameobject = gameobject
         if (params)
             assignParams(this, params)
         EventManager.subscribe("updateScript", (t: number) => {this.update(t)})
-        //this.updateParams(params)
+        if (waitEventToStart)
+            EventManager.subscribe("startScript", () => {this.start()})
+        else
+            this.start()
+            //this.updateParams(params)
     }
      
     abstract start(): void;

@@ -33,6 +33,7 @@ export default class GameEngine {
 
     launchGame() {
         console.log("will lauunch game")
+        EventManager.trigger('startScript')
         requestAnimationFrame((t) => { this.gameloop(t) })
     }
 

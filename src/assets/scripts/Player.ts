@@ -4,9 +4,33 @@ import AScript from "../../engine/components/AScript";
 export default class Player extends AScript {
     speed: number = 0.1;
     _currentSpeed = 0.1;
+    a: HTMLAudioElement| null = null
 
-    start(): void {
+    async start() {
+        console.log("my time to start !")
+        this.a = await new Audio("./assets/sounds/bgm.ogg")
+        await this.a.play()
+        /*this.a.onload = () => {
+            console.log("will play sound")
+            this.a?.play()
+        }
+        this.a.onerror = (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => {
+            console.log("err sound", {event:event, source:source, lineno:lineno, colno:Number, error:Error})
+        }
+        this.a.oncanplay = this.playstuff
+        this.a.src = "./assets/sounds/bgm.ogg"
+        this.a.
+        //this.a.load()*/
     }
+
+    playstuff() {
+        console.log("should be able to play")
+        if (this.a != null)
+            this.a.play()
+        else
+            console.log("..but a is null")
+    }
+
 
     update(deltaTime: number): void {
         if (this.gameobject != undefined) {
