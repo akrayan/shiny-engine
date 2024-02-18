@@ -50,7 +50,6 @@ export default class RessourcesLoader {
             let promise = new Promise((resolve, reject) => {
                 img.onload = resolve;
                 img.onerror = reject;
-                console.log("will try to load", path)
                 img.src = path; // Assurez-vous que player_sprite est défini ou changez-le en fonction du chemin
             });
 
@@ -72,11 +71,9 @@ export default class RessourcesLoader {
             return this._cache.get(path);
         }
 
-        console.log('try to fetch :', path)
 
         const response = await fetch(path);
         const data = await response.json();
-        console.log('fetch ', response.status)
         //if (data.type == 'animation')
         //    this._animations[path] = data
         this._cache.set(path, data);
@@ -88,7 +85,6 @@ export default class RessourcesLoader {
     }
 
     public getAsset(path: string) {
-        console.log(`i want to get ${path} from :`, this._cache)
         if (this._cache.has(path)) {
             return this._cache.get(path);
         }

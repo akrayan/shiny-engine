@@ -14,6 +14,7 @@ function assignParams(object: any, params: any) {
 export default abstract class AScript implements IComponent {
 
     gameobject: GameObject | null = null;
+    abstract readonly type: string;
 
     constructor(params: any = null, waitEventToStart : boolean = false) {
         //this.gameobject = gameobject

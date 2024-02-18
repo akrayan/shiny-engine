@@ -1,7 +1,7 @@
 {
     "dependencies": {
         "json" :["./assets/animations/player_jump.json"],
-        "images": ["./assets/textures/Astronaut_Jump.png"]
+        "images": ["./assets/textures/Astronaut_Jump.png", "./assets/textures/Space_Stars3.png"]
     },
     "gameObjects": [
         {
@@ -27,6 +27,35 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Background",
+            "transform" : {
+                "position": {
+                    "x": 0,
+                    "y": 0
+                },
+                "scale" : {
+                    "x": 15,
+                    "y": 10
+                }
+            },
+            "components" : [
+                {
+                    "type": "BGScript",
+                    "params": {
+                        "speed": 0.1
+                    }
+                },
+                {
+                    "type": "Sprite",
+                    "params": {
+                        "texture": "./assets/textures/Space_Stars3.png",
+                        "layer": 0
+                    }
+                }
+            ]
+
         }
     ]
 }

@@ -22,6 +22,7 @@ export interface IAnimation {
 
 export default class AnimatedSprite implements IComponent {
   gameobject: GameObject | null = null;
+  readonly type: string = "AnimatedSprite";
   private _animation: IAnimation;
   //img: HTMLImageElement;
   //px = 0;
@@ -33,10 +34,8 @@ export default class AnimatedSprite implements IComponent {
 
   //TODO might become asynchrone later
   static createFromSerialize(params: any) {
-    console.log("try create sprite with :", params)
 
     const animation = RessourcesLoader.getInstance().getAsset(params.animation) as IAnimation
-    console.log("indeed i have:", animation)
     return new AnimatedSprite(animation, params.sz, params.layer)
   }
 
@@ -45,10 +44,10 @@ export default class AnimatedSprite implements IComponent {
       this.gameobject = gameobject
     //this.img = new Image()
     this._animation = structuredClone(animation);
-    console.info('animation initialized', this._animation)
     this.layer = layer
 
     //should update the resource list
+    console.log(`register ANS ${animation.textures} for (${'draw' + layer})`)
     EventManager.subscribe('updateAnimation', (t: number) => { this.update(t) })
     EventManager.subscribe('draw' + layer, (ctx: any) => { this.draw(ctx) })
     //in wait of better solution
@@ -83,7 +82,8 @@ export default class AnimatedSprite implements IComponent {
           - just return all the necessary data to draw it from another class
           - call the rendering class passed as parameter ?
   */
-  draw(gameContex: any) {
+  draw(gameContex: CanvasRenderingContext2D) {
+    console.log("anim draw start")
     if (this._animation != undefined) {
       const frame = this._animation.frames[this.currentFrame]
       const textureName = this._animation.textures[frame.texture]
@@ -98,5 +98,6 @@ export default class AnimatedSprite implements IComponent {
         gameContex?.drawImage(texture, frame.sx, frame.sy, frame.width, frame.height, t.position.x, t.position.y, frame.width * t.scale.x, frame.height * t.scale.x)
       }     //console.log('draw')
     }
+    console.log("anim draw finish")
   }
 }

@@ -21,7 +21,10 @@ export default class EventManager {
     }
 
     public static trigger(eventType: string, ...args: any[]) {
+        console.log("i will trigger", eventType)
         const instance = EventManager.getInstance();
         instance.listeners[eventType]?.forEach(listener => listener(...args));
+        console.log("end", eventType)
+
     }
 }

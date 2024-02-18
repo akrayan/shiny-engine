@@ -9,6 +9,15 @@ export default class GameObject {
     constructor(name: string) {
         this.name = name
     }
+
+    getComponent(type: string): IComponent | null {
+        for (let comp of this.components) {
+            if (comp.type == type)
+                return comp;
+        }
+        return null
+    }
+
     addComponent(component: IComponent) {
         component.gameobject = this
         this.components.push(component)

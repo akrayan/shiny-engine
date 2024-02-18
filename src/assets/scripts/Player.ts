@@ -2,12 +2,12 @@ import InputManager from "../../engine/InputManager";
 import AScript from "../../engine/components/AScript";
 
 export default class Player extends AScript {
+    readonly type: string = "Player";
     speed: number = 0.1;
     _currentSpeed = 0.1;
     a: HTMLAudioElement| null = null
 
     async start() {
-        console.log("my time to start !")
         this.a = await new Audio("./assets/sounds/bgm.ogg")
         await this.a.play()
         /*this.a.onload = () => {
@@ -24,7 +24,6 @@ export default class Player extends AScript {
     }
 
     playstuff() {
-        console.log("should be able to play")
         if (this.a != null)
             this.a.play()
         else
