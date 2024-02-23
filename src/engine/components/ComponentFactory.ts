@@ -3,6 +3,7 @@ import RessourcesLoader from "../RessourcesLoader";
 import AnimatedSprite, { IAnimation } from "./AnimatedSprite";
 import AScript from "./AScript";
 import IComponent from "./IComponent";
+import { RectShape } from "./RectShape";
 import { Sprite } from "./Sprite";
 
 
@@ -34,6 +35,8 @@ export class ComponentFactory {
                 return AnimatedSprite.createFromSerialize(params);
             case "Sprite":
                 return Sprite.createFromSerialize(params);
+            case "RectShape":
+                return RectShape.createFromSerialize(params);
             default:
                 if (this.scriptMap == null)
                     throw new Error('Error : ScriptMap is null');

@@ -83,7 +83,7 @@ export default class AnimatedSprite implements IComponent {
           - call the rendering class passed as parameter ?
   */
   draw(gameContex: CanvasRenderingContext2D) {
-    console.log("anim draw start")
+    //console.log("anim draw start")
     if (this._animation != undefined) {
       const frame = this._animation.frames[this.currentFrame]
       const textureName = this._animation.textures[frame.texture]
@@ -98,6 +98,6 @@ export default class AnimatedSprite implements IComponent {
         gameContex?.drawImage(texture, frame.sx, frame.sy, frame.width, frame.height, t.position.x, t.position.y, frame.width * t.scale.x, frame.height * t.scale.x)
       }     //console.log('draw')
     }
-    console.log("anim draw finish")
+    //console.log("anim draw finish")
   }
 }
